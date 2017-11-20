@@ -1,0 +1,149 @@
+tom@tom-HP-xw9400-Workstation ~/workspace/ck $ kubectl describe pod cilium-dbz98 -n kube-system
+Name:           cilium-dbz98
+Namespace:      kube-system
+Node:           ip-172-20-38-83.ec2.internal/172.20.38.83
+Start Time:     Mon, 20 Nov 2017 18:41:32 +0800
+Labels:         controller-revision-hash=2157832661
+                k8s-app=cilium
+                kubernetes.io/cluster-service=true
+                pod-template-generation=1
+Annotations:    kubernetes.io/created-by={"kind":"SerializedReference","apiVersion":"v1","reference":{"kind":"DaemonSet","namespace":"kube-system","name":"cilium","uid":"5fede9aa-cddf-11e7-91fe-0290b3808ecc","apiVers...
+                scheduler.alpha.kubernetes.io/critical-pod=
+                scheduler.alpha.kubernetes.io/tolerations=[{"key":"dedicated","operator":"Equal","value":"master","effect":"NoSchedule"}]
+Status:         Running
+IP:             172.20.38.83
+Created By:     DaemonSet/cilium
+Controlled By:  DaemonSet/cilium
+Containers:
+  cilium-agent:
+    Container ID:  docker://d6a8620dd1f19f449dc5230b11f1f2110c3b46ea50e09c4aff9a5f3d41a8cb29
+    Image:         cilium/cilium:latest
+    Image ID:      docker-pullable://cilium/cilium@sha256:2d1053a9542fa07f1a1902756f40b245fe946cf0cbf8be49ac884cfef5e72b99
+    Port:          <none>
+    Command:
+      cilium-agent
+    Args:
+      --debug=$(CILIUM_DEBUG)
+      -t
+      vxlan
+      --kvstore
+      consul
+      --kvstore-opt
+      consul.address=100.125.138.131:8500
+      --disable-ipv4=$(DISABLE_IPV4)
+    State:          Running
+      Started:      Mon, 20 Nov 2017 18:41:33 +0800
+    Ready:          True
+    Restart Count:  0
+    Liveness:       exec [cilium status] delay=180s timeout=1s period=10s #success=1 #failure=10
+    Readiness:      exec [cilium status] delay=180s timeout=1s period=15s #success=1 #failure=3
+    Environment:
+      K8S_NODE_NAME:   (v1:spec.nodeName)
+      CNI_CONF_NAME:  09-cilium.conf
+      CILIUM_DEBUG:   <set to the key 'debug' of config map 'cilium-config'>         Optional: false
+      DISABLE_IPV4:   <set to the key 'disable-ipv4' of config map 'cilium-config'>  Optional: false
+    Mounts:
+      /host/etc/cni/net.d from etc-cni-netd (rw)
+      /host/opt/cni/bin from cni-path (rw)
+      /sys/fs/bpf from bpf-maps (rw)
+      /var/run/cilium from cilium-run (rw)
+      /var/run/docker.sock from docker-socket (ro)
+      /var/run/secrets/kubernetes.io/serviceaccount from cilium-token-2vk8d (ro)
+Conditions:
+  Type           Status
+  Initialized    True 
+  Ready          True 
+  PodScheduled   True 
+Volumes:
+  cilium-run:
+    Type:  HostPath (bare host directory volume)
+    Path:  /var/run/cilium
+  bpf-maps:
+    Type:  HostPath (bare host directory volume)
+    Path:  /sys/fs/bpf
+  docker-socket:
+    Type:  HostPath (bare host directory volume)
+    Path:  /var/run/docker.sock
+  cni-path:
+    Type:  HostPath (bare host directory volume)
+    Path:  /opt/cni/bin
+  etc-cni-netd:
+    Type:  HostPath (bare host directory volume)
+    Path:  /etc/cni/net.d
+  cilium-token-2vk8d:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  cilium-token-2vk8d
+    Optional:    false
+QoS Class:       BestEffort
+Node-Selectors:  <none>
+Tolerations:     CriticalAddonsOnly
+                 node-role.kubernetes.io/master:NoSchedule
+                 node.alpha.kubernetes.io/notReady:NoExecute
+                 node.alpha.kubernetes.io/unreachable:NoExecute
+                 node.cloudprovider.kubernetes.io/uninitialized=true:NoSchedule
+Events:          <none>
+tom@tom-HP-xw9400-Workstation ~/workspace/ck $ kubectl describe node ip-172-20-38-83.ec2.internal
+Name:               ip-172-20-38-83.ec2.internal
+Roles:              node
+Labels:             beta.kubernetes.io/arch=amd64
+                    beta.kubernetes.io/instance-type=m4.large
+                    beta.kubernetes.io/os=linux
+                    failure-domain.beta.kubernetes.io/region=us-east-1
+                    failure-domain.beta.kubernetes.io/zone=us-east-1b
+                    kubernetes.io/hostname=ip-172-20-38-83.ec2.internal
+                    kubernetes.io/role=node
+                    node-role.kubernetes.io/node=
+Annotations:        io.cilium.network.ipv4-pod-cidr=100.96.1.0/24
+                    io.cilium.network.ipv6-pod-cidr=f00d::6460:100:0:0/96
+                    node.alpha.kubernetes.io/ttl=0
+                    volumes.kubernetes.io/controller-managed-attach-detach=true
+Taints:             <none>
+CreationTimestamp:  Mon, 20 Nov 2017 14:31:24 +0800
+Conditions:
+  Type             Status  LastHeartbeatTime                 LastTransitionTime                Reason                       Message
+  ----             ------  -----------------                 ------------------                ------                       -------
+  OutOfDisk        False   Mon, 20 Nov 2017 20:16:18 +0800   Mon, 20 Nov 2017 14:31:24 +0800   KubeletHasSufficientDisk     kubelet has sufficient disk space available
+  MemoryPressure   False   Mon, 20 Nov 2017 20:16:18 +0800   Mon, 20 Nov 2017 14:31:24 +0800   KubeletHasSufficientMemory   kubelet has sufficient memory available
+  DiskPressure     False   Mon, 20 Nov 2017 20:16:18 +0800   Mon, 20 Nov 2017 14:31:24 +0800   KubeletHasNoDiskPressure     kubelet has no disk pressure
+  Ready            True    Mon, 20 Nov 2017 20:16:18 +0800   Mon, 20 Nov 2017 14:38:35 +0800   KubeletReady                 kubelet is posting ready status
+Addresses:
+  InternalIP:   172.20.38.83
+  InternalDNS:  ip-172-20-38-83.ec2.internal
+  Hostname:     ip-172-20-38-83.ec2.internal
+Capacity:
+ cpu:     2
+ memory:  8177656Ki
+ pods:    110
+Allocatable:
+ cpu:     2
+ memory:  8075256Ki
+ pods:    110
+System Info:
+ Machine ID:                 04f271c2e47942709fe35bb7a24e4c12
+ System UUID:                EC22D067-8C20-BA56-E610-9EC4B7E6FFC7
+ Boot ID:                    1839746e-22f8-4f35-9c85-03f02ea510e8
+ Kernel Version:             4.13.9-coreos
+ OS Image:                   Container Linux by CoreOS 1520.8.0 (Ladybug)
+ Operating System:           linux
+ Architecture:               amd64
+ Container Runtime Version:  docker://1.12.6
+ Kubelet Version:            v1.7.10
+ Kube-Proxy Version:         v1.7.10
+PodCIDR:                     100.96.1.0/24
+ExternalID:                  i-08417765fc819311b
+Non-terminated Pods:         (6 in total)
+  Namespace                  Name                                       CPU Requests  CPU Limits  Memory Requests  Memory Limits
+  ---------                  ----                                       ------------  ----------  ---------------  -------------
+  default                    app3-2097142386-wqx31                      100m (5%)     0 (0%)      0 (0%)           0 (0%)
+  default                    consul-2                                   100m (5%)     0 (0%)      0 (0%)           0 (0%)
+  kube-system                calico-node-cbrcx                          20m (1%)      0 (0%)      0 (0%)           0 (0%)
+  kube-system                cilium-dbz98                               0 (0%)        0 (0%)      0 (0%)           0 (0%)
+  kube-system                kube-dns-1311260920-hh4kw                  260m (13%)    0 (0%)      110Mi (1%)       170Mi (2%)
+  kube-system                kube-proxy-ip-172-20-38-83.ec2.internal    100m (5%)     0 (0%)      0 (0%)           0 (0%)
+Allocated resources:
+  (Total limits may be over 100 percent, i.e., overcommitted.)
+  CPU Requests  CPU Limits  Memory Requests  Memory Limits
+  ------------  ----------  ---------------  -------------
+  580m (28%)    0 (0%)      110Mi (1%)       170Mi (2%)
+Events:         <none>
+

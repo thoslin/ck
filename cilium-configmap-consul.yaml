@@ -1,0 +1,8 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: cilium-config
+  namespace: kube-system
+data:
+  debug: "false"
+  disable-ipv4: "false"
